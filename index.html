@@ -16,12 +16,12 @@
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
-            background-color: #F8F5F2;
-            color: #3D405B;
+            background-color: #F8F5F2; /* Light beige background */
+            color: #3D405B; /* Dark blue-gray text */
         }
-        .accent-color { color: #D15A2B; }
+        .accent-color { color: #D15A2B; } /* Burnt orange accent */
         .accent-bg { background-color: #D15A2B; }
-        .secondary-bg { background-color: #E6E1DC; }
+        .secondary-bg { background-color: #E6E1DC; } /* Lighter gray-beige for sections */
         .card-bg { background-color: #FFFFFF; }
         .nav-active {
             color: #D15A2B;
@@ -35,7 +35,7 @@
             transition: color 0.3s ease;
         }
         main a:hover {
-            color: #A3B18A;
+            color: #A3B18A; /* Olive green on hover */
         }
         .chart-container {
             position: relative;
@@ -51,7 +51,7 @@
                 height: 350px;
             }
         }
-        /* Adjusted CSS selectors to match the timeline HTML structure */
+        /* Styles for expandable timeline items */
         .timeline-item .details {
             max-height: 0;
             overflow: hidden;
@@ -60,10 +60,11 @@
             padding-bottom: 0;
         }
         .timeline-item.active .details {
-            max-height: 1000px; /* Adjust as needed */
+            max-height: 1000px; /* Large value to ensure content fits */
             padding-top: 1rem;
             padding-bottom: 1rem;
         }
+        /* Vertical timeline styles */
         .timeline {
             position: relative;
         }
@@ -80,6 +81,15 @@
         .timeline-item {
             position: relative;
             padding-bottom: 3rem;
+             /* NEW: Animation initial state */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        /* NEW: Animation visible state */
+        .timeline-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         .timeline-item::after {
             content: '';
@@ -89,7 +99,7 @@
             width: 20px;
             height: 20px;
             background-color: #D15A2B; /* Accent color for the dot */
-            border: 4px solid #F8F5F2;
+            border: 4px solid #E6E1DC; /* Match the new section background */
             border-radius: 50%;
             transform: translateX(-50%);
             z-index: 10;
@@ -105,22 +115,22 @@
             transform: translateY(-5px);
         }
         .timeline-item:nth-child(odd) .timeline-item-content {
-            margin-left: calc(50% + 20px); /* Adjust based on dot size */
+            margin-left: calc(50% + 20px); /* Position to the right of the line */
         }
         .timeline-item:nth-child(even) .timeline-item-content {
-            margin-right: calc(50% + 20px);
+            margin-right: calc(50% + 20px); /* Position to the left of the line */
         }
 
-        /* Mobile adjustments */
+        /* Mobile adjustments for timeline */
         @media (max-width: 767px) {
             .timeline::before {
-                left: 10px;
+                left: 10px; /* Move line to the left */
             }
             .timeline-item::after {
-                left: 10px;
+                left: 10px; /* Move dot to the left */
             }
             .timeline-item-content {
-                margin-left: 40px !important;
+                margin-left: 40px !important; /* All items align to the right of the line */
                 margin-right: 0 !important;
             }
         }
@@ -128,8 +138,8 @@
         .toggle-icon {
             transition: transform 0.3s ease;
         }
-        .timeline-item.active .toggle-icon {
-            transform: rotate(180deg);
+        .skill-card.active .toggle-icon, .timeline-item.active .toggle-icon {
+            transform: rotate(180deg); /* Rotate icon on expand */
         }
     </style>
 </head>
@@ -138,23 +148,28 @@
     <!-- Header & Navigation -->
     <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="#hero" class="text-xl font-bold accent-color">Chun's Portfolio</a>
+            <a href="#hero" class="text-xl font-bold accent-color">Chun's Resume</a>
+            <!-- Desktop Navigation -->
             <div class="hidden md:flex space-x-8">
                 <a href="#skills" class="nav-link text-gray-600 hover:accent-color transition-colors duration-300 pb-1">亮點能力</a>
                 <a href="#highlights" class="nav-link text-gray-600 hover:accent-color transition-colors duration-300 pb-1">實戰成就</a>
                 <a href="#timeline" class="nav-link text-gray-600 hover:accent-color transition-colors duration-300 pb-1">職涯軌跡</a>
+                <a href="https://pinjunl2020.wixsite.com/chunsportfolio" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:accent-color transition-colors duration-300 pb-1">作品集</a>
                 <a href="#contact" class="nav-link text-gray-600 hover:accent-color transition-colors duration-300 pb-1">與我聯繫</a>
             </div>
+            <!-- Mobile Menu Button -->
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-gray-600 focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
                 </button>
             </div>
         </nav>
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden">
             <a href="#skills" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">亮點能力</a>
             <a href="#highlights" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">實戰成就</a>
             <a href="#timeline" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">職涯軌跡</a>
+            <a href="https://pinjunl2020.wixsite.com/chunsportfolio" target="_blank" rel="noopener noreferrer" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">作品集</a>
             <a href="#contact" class="block py-2 px-6 text-sm text-gray-700 hover:bg-gray-100">與我聯繫</a>
         </div>
     </header>
@@ -162,14 +177,27 @@
     <main>
         <!-- Hero Section -->
         <section id="hero" class="py-20 md:py-32">
-            <div class="container mx-auto px-6 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">林品君 <span class="block md:inline">CHUN LIN</span></h1>
-                <h2 class="text-2xl md:text-3xl accent-color font-semibold mt-4">多元觸角 • 邏輯管理 • 追求更好</h2>
-                <p class="mt-8 max-w-3xl mx-auto text-lg text-gray-600">
-                    具備逾5年跨領域專案規劃與執行經驗，職涯軌跡涵蓋教育、新聞、行銷與非營利組織，擅長統籌活動與跨單位協調，對教育訓練與知識轉譯充滿熱忱。熟悉專案管理、課程設計、活動實務，並具備初步資安素養及與技術人員協作經驗，具備高度執行力與解決問題的能力。
-                </p>
-                <div class="mt-8">
-                    <p class="text-gray-500 text-base">策略規劃 / 專案管理與執行 / 內容產製 / 知識轉譯 / 溝通與協調</p>
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col lg:flex-row items-center justify-center">
+                    <!-- Image Column -->
+                    <div class="lg:w-1/3 flex-shrink-0 mb-8 lg:mb-0 lg:mr-12">
+                        <img src="https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/refs/heads/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E5%A4%A7%E9%A0%AD%E7%85%A7.jpeg" 
+                             alt="林品君個人照" 
+                             class="w-48 h-48 md:w-64 md:h-64 mx-auto rounded-lg object-cover shadow-lg"
+                             onerror="this.onerror=null;this.src='https://placehold.co/256x256/E6E1DC/3D405B?text=Chun';">
+                    </div>
+                    <!-- Text Column -->
+                    <div class="lg:w-2/3 text-center lg:text-left">
+                        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">林品君 <span class="block md:inline">CHUN LIN</span></h1>
+                        <!-- UPDATED FONT SIZE FOR MOBILE -->
+                        <h2 class="text-xl md:text-3xl accent-color font-semibold mt-4">多元觸角 • 邏輯管理 • 追求更好</h2>
+                        <p class="mt-8 max-w-3xl mx-auto lg:mx-0 text-lg text-gray-600">
+                            具備逾5年跨領域專案規劃與執行經驗，職涯軌跡涵蓋教育、新聞、行銷與非營利組織，擅長統籌活動與跨單位協調，對教育活動與知識轉譯充滿熱忱。熟悉專案管理、課程設計、活動實務，並具備初步資安素養及與技術人員協作經驗，具備高度執行力與解決問題的能力。
+                        </p>
+                        <div class="mt-8">
+                            <p class="text-gray-500 text-lg">策略規劃 / 專案管理與執行 / 內容產製 / 知識轉譯 / 溝通與協調</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -179,46 +207,90 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-800">亮點能力</h2>
-                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">我的工作經驗證明了我在不同領域的適應性與影響力。<br><span class="font-bold accent-color">點擊下方卡片</span>，查看我在各領域的具體成就。</p>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto">我的工作經驗證明了我在不同領域的適應性與影響力。<br><span class="font-bold accent-color">點擊下方卡片</span>，查看我在各個職涯階段的具體成果。</p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Skill Card 1: Event Planning -->
                     <div class="skill-card cursor-pointer p-6 card-bg rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        <h3 class="text-xl font-bold text-gray-800">活動規劃與執行</h3>
-                        <p class="mt-4 text-gray-600">我能從零開始規劃，協調資源，並確保專案高效達成目標。</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 accent-color" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 2v4"></path><path d="M16 2v4"></path><path d="M21 13V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8"></path><path d="M3 10h18"></path><path d="M16 19h6"></path><path d="M19 16v6"></path>
+                                </svg>
+                                <h3 class="text-xl font-bold text-gray-800">活動規劃與執行</h3>
+                            </div>
+                            <div class="text-gray-400">
+                                <svg class="toggle-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">我能從零開始規劃，協調資源，並確保專案高效達成目標。</p>
                         <div class="skill-details hidden mt-4 text-sm text-gray-500 border-t pt-2">
                             <ul class="list-disc list-inside space-y-1">
                                 <li>台灣事實查核中心：到職3天接手籌辦跨國活動，擔任統籌與執行角色，協調10+ 人團隊分工合作，活動報到率超過 80%。</li>
-                                <li>台灣事實查核中心：統籌百人工作坊，獨力完成80%以上的籌備工作，於預算緊縮下仍達到學員滿意度超過94%。</li>
+                                <li>台灣事實查核中心：統籌百人工作坊，獨力完成80%以上的籌備工作，減省預算超過20%，並達到學員滿意度超過94%。</li>
                                 <li>人本教育基金會：策劃或執行國際研討會、座談會、 理念推廣園遊會、人權工作坊等。</li>
                             </ul>
                         </div>
                     </div>
+                    <!-- Skill Card 2: Proposal Writing -->
                     <div class="skill-card cursor-pointer p-6 card-bg rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        <h3 class="text-xl font-bold text-gray-800">提案與成果報告撰寫</h3>
-                        <p class="mt-4 text-gray-600">我擅長將複雜的專案成果與計畫，以清晰、有條理的方式呈現，並成功爭取資源。</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 accent-color" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line>
+                                </svg>
+                                <h3 class="text-xl font-bold text-gray-800">提案與成果報告撰寫</h3>
+                            </div>
+                            <div class="text-gray-400">
+                                <svg class="toggle-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">我擅長將複雜的專案成果與計畫，以清晰、有條理的方式呈現，並成功爭取資源。</p>
                         <div class="skill-details hidden mt-4 text-sm text-gray-500 border-t pt-2">
                             <ul class="list-disc list-inside space-y-1">
-                                <li>台灣事實查核中心：兩週內完成500萬獎助計畫提案，並獲選；撰寫計畫期中成果報告，獲贊助單位一次審核通過。</li>
+                                <li>台灣事實查核中心：兩週內完成500萬獎助計畫提案，並獲選；撰寫計畫期中成果報告，獲贊助單位一次通過。</li>
                                 <li>台灣事實查核中心：建置供團隊收集影響力數據、檢視各項專案與工作執行進度的儀表板，同時整合常用資料。</li>
                                 <li>沿著菊島旅行社：製作政府投標提案簡報與計畫書。</li>
                             </ul>
                         </div>
                     </div>
+                    <!-- Skill Card 3: Content Creation -->
                     <div class="skill-card cursor-pointer p-6 card-bg rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        <h3 class="text-xl font-bold text-gray-800">內容產製與知識轉譯</h3>
-                        <p class="mt-4 text-gray-600">我擅長將複雜資訊轉化為易於理解的內容，並透過多元管道傳播。</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 accent-color" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-7 7c0 3.03 1.54 5.5 4 6.57V18h6v-2.43c2.46-1.07 4-3.54 4-6.57a7 7 0 0 0-7-7z"></path>
+                                </svg>
+                                <h3 class="text-xl font-bold text-gray-800">內容產製與知識轉譯</h3>
+                            </div>
+                            <div class="text-gray-400">
+                                <svg class="toggle-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">我擅長將複雜資訊轉化為易於理解的內容，並透過多元管道傳播。</p>
                         <div class="skill-details hidden mt-4 text-sm text-gray-500 border-t pt-2">
                             <ul class="list-disc list-inside space-y-1">
-                                <li>台灣事實查核中心：製作事實查核與媒體素養系列教材與線上課程，內容涵蓋AI識讀與數位工具應用。</li>
+                                <li>台灣事實查核中心：製作事實查核與媒體素養系列教材21份、線上課程6集，內容涵蓋AI識讀與數位工具應用。</li>
                                 <li>台灣事實查核中心：協助規劃大專院校AI識讀與資訊查核課程，也擔任助教。</li>
                                 <li>聯合報：平均單月撰寫100+篇新聞；月點閱逾38萬。</li>
                                 <li>沿著菊島旅行社：撰寫社群貼文提升粉專539%瀏覽次數、追蹤與按讚數提升超過100%。</li>
                             </ul>
                         </div>
                     </div>
+                    <!-- Skill Card 4: Communication -->
                     <div class="skill-card cursor-pointer p-6 card-bg rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        <h3 class="text-xl font-bold text-gray-800">溝通與協調</h3>
-                        <p class="mt-4 text-gray-600">我擅長跨部門協作與跨領域溝通，具備技術與非技術團隊間的橋接能力，並能拓展合作資源與建立實質連結。</p>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 accent-color" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                </svg>
+                                <h3 class="text-xl font-bold text-gray-800">溝通與協調</h3>
+                            </div>
+                            <div class="text-gray-400">
+                                <svg class="toggle-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">我擅長跨部門協作與跨領域溝通，具備技術與非技術團隊間の橋接能力，並能拓展合作資源與建立實質連結。</p>
                         <div class="skill-details hidden mt-4 text-sm text-gray-500 border-t pt-2">
                             <ul class="list-disc list-inside space-y-1">
                                 <li>台灣事實查核中心：與工程團隊合作開發輔助查核的 AI 工具，擔任內外部溝通橋樑。</li>
@@ -238,8 +310,9 @@
                     <h2 class="text-3xl font-bold text-gray-800">實戰成就</h2>
                     <p class="mt-4 text-gray-600 max-w-2xl mx-auto">透過數據，具體呈現我的工作成效。下方圖表展示我在活動、內容與預算管理上的亮點。</p>
                 </div>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-                    <div class="p-6 card-bg rounded-lg shadow-lg lg:col-span-1 flex flex-col items-center">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                    <!-- Card 1: Event Performance -->
+                    <div class="p-6 card-bg rounded-lg shadow-lg flex flex-col items-center">
                         <h3 class="font-bold text-lg text-center text-gray-800">活動執行效益</h3>
                         <p class="text-sm text-center text-gray-500 mb-4">(台灣事實查核中心)</p>
                         <div class="chart-container flex-grow">
@@ -250,20 +323,23 @@
                             <p class="text-3xl font-bold accent-color" id="budget-counter">0%</p>
                         </div>
                     </div>
-                    <div class="p-6 card-bg rounded-lg shadow-lg lg:col-span-1 flex flex-col items-center">
-                        <h3 class="font-bold text-lg text-center text-gray-800">內容傳播影響力</h3>
-                        <p class="text-sm text-center text-gray-500 mb-4">(澎湖沿著菊島旅行社)</p>
-                        <div class="chart-container flex-grow">
-                            <canvas id="socialChart"></canvas>
-                        </div>
-                    </div>
-                     <div class="p-6 card-bg rounded-lg shadow-lg lg:col-span-1 flex flex-col items-center">
-                        <h3 class="font-bold text-lg text-center text-gray-800">跨界合作專案</h3>
-                        <p class="text-sm text-center text-gray-500 mb-4">(台灣事實查核中心)</p>
-                        <div class="mt-4 text-center">
-                            <p class="text-sm text-gray-500">跨領域合作次數</p>
-                            <p class="text-5xl font-bold accent-color" id="partners-counter">0</p>
-                            <p class="text-gray-600">與工程師、設計師等跨領域夥伴合作</p>
+                    <!-- Card 2: Content Impact (Replaced Chart with KPI cards) -->
+                    <div class="p-6 card-bg rounded-lg shadow-lg flex flex-col">
+                        <h3 class="font-bold text-lg text-center text-gray-800">內容影響力</h3>
+                        <p class="text-sm text-center text-gray-500 mb-4">(聯合報 & 沿著菊島旅行社)</p>
+                        <div class="flex-grow flex flex-col justify-around mt-4 space-y-6">
+                            <div class="text-center">
+                                <p class="text-5xl font-bold accent-color" id="readership-counter">0</p>
+                                <p class="text-gray-600 mt-1">聯合報月點閱</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-5xl font-bold accent-color" id="views-growth-counter">0</p>
+                                <p class="text-gray-600 mt-1">貼文瀏覽增長</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-5xl font-bold accent-color" id="follower-growth-counter">0</p>
+                                <p class="text-gray-600 mt-1">粉絲增長</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -275,10 +351,10 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-gray-800">職涯軌跡</h2>
-                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto"><span class="font-bold accent-color">點擊</span>每個項目以探索更多細節。</p>
+                    <p class="mt-4 text-gray-600 max-w-2xl mx-auto"><span class="font-bold accent-color">點擊</span>每個項目探索更多職涯經歷。</p>
                 </div>
                 <div id="timeline-list" class="timeline max-w-5xl mx-auto">
-                    <!-- Timeline items will be generated here by JS -->
+                    <!-- Timeline items will be dynamically generated here by JavaScript -->
                 </div>
             </div>
         </section>
@@ -300,29 +376,57 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Mobile Menu Toggle ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
+            
+            // --- Close Mobile Menu on Link Click & Handle Scroll ---
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    // For internal links, handle smooth scroll
+                    if (link.hash) {
+                        e.preventDefault();
+                        const targetId = link.hash;
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                    // Always close the menu after a click
+                    mobileMenu.classList.add('hidden');
+                });
+            });
 
+            // --- Skill Card Toggle ---
             const skillCards = document.querySelectorAll('.skill-card');
             skillCards.forEach(card => {
                 card.addEventListener('click', () => {
+                    card.classList.toggle('active');
                     card.querySelector('.skill-details').classList.toggle('hidden');
                 });
             });
 
+            // --- Active Nav Link on Scroll ---
             const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main section');
+            const sections = document.querySelectorAll('main section, footer');
             window.addEventListener('scroll', () => {
                 let current = '';
+                const scrollPosition = window.pageYOffset;
+
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 60) {
+                    if (scrollPosition >= sectionTop - 75) { 
                         current = section.getAttribute('id');
                     }
                 });
+                
+                if ((window.innerHeight + scrollPosition) >= document.body.offsetHeight - 5) {
+                    current = 'contact';
+                }
 
                 navLinks.forEach(link => {
                     link.classList.remove('nav-active');
@@ -332,107 +436,93 @@
                 });
             });
             
+            // --- Data for Charts and Counters ---
             const highlightsData = {
                 event: {
                     labels: ['報到率', '滿意度'],
-                    data: [80, 96],
+                    data: [80, 94],
                     backgroundColor: ['#D15A2B', '#A3B18A'],
                     label: '%'
                 },
-                social: {
-                    labels: ['觸及人數', '互動次數'],
-                    data: [14297, 36441],
-                    backgroundColor: ['#A3B18A', '#F2CC8F'],
-                    label: '%'
-                },
-                budgetSaved: 50,
-                partnersCount: 7
+                budgetSaved: 20,
             };
 
-            const eventCtx = document.getElementById('eventChart').getContext('2d');
-            new Chart(eventCtx, {
-                type: 'bar',
-                data: {
-                    labels: highlightsData.event.labels,
-                    datasets: [{
-                        label: '活動成效',
-                        data: highlightsData.event.data,
-                        backgroundColor: highlightsData.event.backgroundColor,
-                        borderColor: '#FFFFFF',
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ' + context.parsed.y + highlightsData.event.label;
+            // --- Chart.js Initialization with Intersection Observer ---
+            const eventChartCanvas = document.getElementById('eventChart');
+            const chartObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const eventCtx = eventChartCanvas.getContext('2d');
+                        new Chart(eventCtx, {
+                            type: 'bar',
+                            data: {
+                                labels: highlightsData.event.labels,
+                                datasets: [{
+                                    label: '活動成效',
+                                    data: highlightsData.event.data,
+                                    backgroundColor: highlightsData.event.backgroundColor,
+                                    borderColor: '#FFFFFF',
+                                    borderWidth: 2,
+                                    borderRadius: 5
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                animation: {
+                                    duration: 1500,
+                                    easing: 'easeInOutQuart'
+                                },
+                                plugins: {
+                                    legend: { display: false },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return context.label + ': ' + context.parsed.y + highlightsData.event.label;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        max: 100,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return value + '%';
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        }
+                        });
+                        observer.unobserve(eventChartCanvas);
                     }
-                }
-            });
-
-            const socialCtx = document.getElementById('socialChart').getContext('2d');
-            new Chart(socialCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['觸及人數增長', '互動次數增長'],
-                    datasets: [{
-                        label: '增長比例',
-                        data: highlightsData.social.data,
-                        backgroundColor: highlightsData.social.backgroundColor,
-                        hoverOffset: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.label + ': ' + context.parsed.toLocaleString() + highlightsData.social.label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+                });
+            }, { threshold: 0.5 });
             
-            function animateCounter(id, finalValue, duration = 2000, isPercentage = false) {
+            if (eventChartCanvas) {
+                chartObserver.observe(eventChartCanvas);
+            }
+
+
+            // --- Animated Counter Function ---
+            function animateCounter(id, finalValue, duration = 2000, suffix = '') {
                 const element = document.getElementById(id);
+                if (!element) return;
                 let start = 0;
                 const increment = finalValue / (duration / 16);
                 
                 function update() {
                     start += increment;
                     if (start < finalValue) {
-                        element.innerText = Math.ceil(start) + (isPercentage ? '%' : '');
+                        element.innerText = Math.ceil(start) + suffix;
                         requestAnimationFrame(update);
                     } else {
-                        element.innerText = finalValue + (isPercentage ? '%' : '');
+                        element.innerText = finalValue + suffix;
                     }
                 }
+                
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
@@ -443,21 +533,26 @@
                 }, { threshold: 0.5 });
                 observer.observe(element);
             }
-            animateCounter('budget-counter', highlightsData.budgetSaved, 2000, true);
-            animateCounter('partners-counter', highlightsData.partnersCount, 2000);
+            // Animate counters
+            animateCounter('budget-counter', highlightsData.budgetSaved, 2000, '%');
+            animateCounter('readership-counter', 380, 2000, 'k+');
+            animateCounter('views-growth-counter', 539, 2000, '%');
+            animateCounter('follower-growth-counter', 100, 2000, '%+');
 
+            // --- Timeline Data and Generation ---
             const timelineData = [
                 {
                     date: '2024/4 - 現在',
                     title: '專案經理',
                     company: '台灣事實查核中心',
                     logoUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/refs/heads/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E5%8F%B0%E7%81%A3%E4%BA%8B%E5%AF%A6%E6%9F%A5%E6%A0%B8%E4%B8%AD%E5%BF%83logo.png',
+                    imageUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/20240518%E7%8E%A9%E8%BD%89%E6%9F%A5%E6%A0%B8%E5%8F%B0%E6%97%A5%E5%B7%A5%E4%BD%9C%E5%9D%8A2.png',
                     details: [
                         `到職3天接手籌辦<a href="https://tfc-taiwan.org.tw/2024-taiwan-japan-media-literacy-workshop/?pg=2" target="_blank" rel="noopener noreferrer">跨國活動</a>，擔任統籌與執行角色，協調10+ 人團隊分工合作，活動報到率超過 80%。`,
-                        `統籌<a href="https://tfc-taiwan.org.tw/2024-investigative-reporting-fact-checking-workshop/" target="_blank" rel="noopener noreferrer">百人工作坊</a>，獨力完成80%以上的籌備工作，於預算緊縮下仍達到學員滿意度超過94%。`,
+                        `統籌<a href="https://tfc-taiwan.org.tw/2024-investigative-reporting-fact-checking-workshop/" target="_blank" rel="noopener noreferrer">百人工作坊</a>，獨力完成80%以上的籌備工作，減省預算超過20%，並達到學員滿意度超過94%。`,
                         `開拓新的活動宣傳管道，報名人數在一週左右達到近90%，超過80% 為新客群。`,
-                        `兩週內完成500萬獎助計畫提案，並獲選；撰寫計畫期中成果報告，獲贊助單位一次審核通過。`,
-                        `製作事實查核與媒體素養<a href="https://school.tfc-taiwan.org.tw/handout-presentation/" target="_blank" rel="noopener noreferrer">系列教材</a>與<a href="https://school.tfc-taiwan.org.tw/online-course-guide/?3360205402=38" target="_blank" rel="noopener noreferrer">線上課程</a>，負責規劃教材架構、撰寫課程腳本、美編設計與內容轉譯，教材內容涵蓋AI識讀與數位工具應用。`,
+                        `兩週內完成500萬獎助計畫提案，並獲選；撰寫計畫期中成果報告，獲贊助單位一次通過。`,
+                        `製作事實查核與媒體素養<a href="https://school.tfc-taiwan.org.tw/handout-presentation/" target="_blank" rel="noopener noreferrer">系列教材21份</a>、<a href="https://school.tfc-taiwan.org.tw/online-course-guide/?3360205402=38" target="_blank" rel="noopener noreferrer">線上課程6集</a>，負責規劃教材架構、撰寫課程腳本、美編設計與內容轉譯，教材內容涵蓋AI識讀與數位工具應用。`,
                         `協助規劃大專院校AI識讀與資訊查核課程，與講師共擬課綱與授課的內容形式，也擔任助教。`,
                         `建置供團隊收集影響力數據、檢視各項專案與工作執行進度的儀表板，同時整合常用資料。`
                     ]
@@ -467,6 +562,7 @@
                     title: '行銷部門特助',
                     company: '鮮乳坊',
                     logoUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/refs/heads/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E9%AE%AE%E4%B9%B3%E5%9D%8Alogo.jpeg',
+                    imageUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E9%AE%AE%E4%B9%B3%E5%9D%8A%E6%93%BA%E6%94%A4.png',
                     details: [
                         '到職3個月，從專案助理，升為專案經理，統籌與公司財務及資源管理相關的專案，設計新的內部運作機制。',
                         '洽談乖乖、星展銀行、國光客運等品牌合作案。',
@@ -479,6 +575,7 @@
                     title: '記者',
                     company: '聯合報（高雄）',
                     logoUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/refs/heads/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E8%81%AF%E5%90%88%E5%A0%B1logo.jpeg',
+                    imageUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E8%81%AF%E5%90%88%E5%A0%B1%E6%8E%A1%E8%A8%AA.jpeg',
                     details: [
                         '平均單月撰寫超過100篇新聞。',
                         '入職第二個月，單月總點閱逾38萬（報社人均要求為30萬點閱/月)。',
@@ -491,6 +588,8 @@
                     title: '旅遊專員',
                     company: '澎湖沿著菊島旅行社',
                     logoUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/refs/heads/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E6%B2%BF%E8%91%97%E8%8F%8A%E5%B3%B6%E6%97%85%E8%A1%8Clogo.png',
+                    imageUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E6%B2%BF%E8%8F%8A%E5%92%8C%E6%97%85%E5%AE%A2%E5%90%88%E7%85%A7.jpeg',
+                    imagePosition: 'object-top', // Specific class for this image
                     details: [
                         '製作政府投標提案簡報與計畫書。',
                         '與全家便利商店合作花火節線上線下行銷宣傳活動 。',
@@ -503,9 +602,10 @@
                     title: '秘書',
                     company: '人本教育基金會',
                     logoUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/refs/heads/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E4%BA%BA%E6%9C%ACLogo.svg',
+                    imageUrl: 'https://raw.githubusercontent.com/PINN2025/PINN2025.github.io/main/%E5%80%8B%E4%BA%BA%E7%B6%B2%E7%AB%99%E5%9C%96%E7%89%87/%E4%BA%BA%E6%9C%AC_CRC%E5%9C%92%E9%81%8A%E6%9C%83.jpeg',
                     details: [
                         '新聞稿撰寫、籌辦記者會、社群媒體經營。',
-                        `策劃或執行教育理念推廣活動：<a href="https://hef.org.tw/annual-reports-2019-02/" target="_blank" rel="noopener noreferrer">國際研討會</a>（邀請日本專家來台，台北、高雄兩場次共計近500人參與）、<a href="https://www.facebook.com/silentislandtw" target="_blank" rel="noopener noreferrer">新書座談會</a>（《沉默的島嶼—校園性侵事件簿》六場座談，參與者逾200人）、<a href="https://www.facebook.com/TaiwanNHRM/posts/pfbid02tVNPTpz3pr8Lp74Cq3UtzRdpYp3e3WmVCvyi5rrWTQKvKv6r7xNz3zvEeJnuL1hel" target="_blank" rel="noopener noreferrer">兒童權利公約頒布30週年主題園遊會</a>活動攤位（單日理念推廣、互動人次逾200人）、<a href="https://www.facebook.com/tw.tyad/posts/pfbid0KZPqdMgfAJKnE4gFvc9r2K8MjrFsNf212SiuumTJCZFj7fWJfA18AzdsSCwNww6ul" target="_blank" rel="noopener noreferrer">學生權利巡迴工作坊</a>（總參與人次逾100人）。`,
+                        `策劃或執行教育理念推廣活動：<a href="https://hef.org.tw/annual-reports-2019-02/" target="_blank" rel="noopener noreferrer">國際研討會</a>、<a href="https://www.facebook.com/silentislandtw" target="_blank" rel="noopener noreferrer">新書座談會</a>、<a href="https://www.facebook.com/TaiwanNHRM/posts/pfbid02tVNPTpz3pr8Lp74Cq3UtzRdpYp3e3WmVCvyi5rrWTQKvKv6r7xNz3zvEeJnuL1hel" target="_blank" rel="noopener noreferrer">兒童權利公約頒布30週年主題園遊會</a>、<a href="https://www.facebook.com/tw.tyad/posts/pfbid0KZPqdMgfAJKnE4gFvc9r2K8MjrFsNf212SiuumTJCZFj7fWJfA18AzdsSCwNww6ul" target="_blank" rel="noopener noreferrer">學生權利巡迴工作坊</a>。`,
                         '設計、執行營隊教案，對象涵括小學、中學、大學生。',
                         `製作親職教育<a href="https://www.pubu.com.tw/album/201865" target="_blank" rel="noopener noreferrer">線上課程</a>，執行疫情期間<a href="https://www.facebook.com/hef.tw/posts/pfbid02hcTmZnEvo4j8yYrGCurJFdQ5ijV8xwLcTW9ATwAUMnoZqdB5KkJB32wRfVaceqcBl" target="_blank" rel="noopener noreferrer">線上直播課程</a>。`
                     ]
@@ -514,29 +614,30 @@
 
             const timelineList = document.getElementById('timeline-list');
             timelineData.forEach(item => {
-                const div = document.createElement('div'); // Use 'div' instead of 'li' for proper semantic structure here
+                const div = document.createElement('div');
                 div.className = 'timeline-item';
                 
                 let detailsHTML = item.details.map(detail => `<li class="my-1">${detail}</li>`).join('');
+                const imagePositionClass = item.imagePosition || 'object-center';
 
                 div.innerHTML = `
                     <div class="timeline-item-content cursor-pointer">
-                        <div class="flex justify-between items-center">
+                        <div class="flex justify-between items-start">
                             <div class="flex items-center space-x-4">
-                                <!-- Company Logo added here -->
-                                <img src="${item.logoUrl}" alt="${item.company} logo" class="w-12 h-12 rounded-full object-cover">
+                                <img src="${item.logoUrl}" alt="${item.company} logo" class="w-12 h-12 rounded-full object-cover border-2 border-gray-100" onerror="this.style.display='none'">
                                 <div>
                                     <h3 class="text-lg md:text-xl font-bold">${item.title}</h3>
                                     <p class="accent-color font-semibold">${item.company}</p>
                                     <p class="text-sm text-gray-500">${item.date}</p>
                                 </div>
                             </div>
-                            <div class="text-2xl text-gray-400">
+                            <div class="text-2xl text-gray-400 pt-1">
                                 <svg class="toggle-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
+                        <img src="${item.imageUrl}" alt="${item.company} 工作照片" class="w-full h-auto rounded-md shadow-sm object-cover ${imagePositionClass} aspect-[16/9] mt-4" onerror="this.style.display='none'">
                         <div class="details">
-                            <ul class="list-disc list-inside mt-4 text-gray-600">
+                            <ul class="list-disc list-inside mt-4 text-gray-600 space-y-2">
                                 ${detailsHTML}
                             </ul>
                         </div>
@@ -545,15 +646,35 @@
                 timelineList.appendChild(div);
             });
 
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            timelineItems.forEach(item => {
+            const timelineItemsContent = document.querySelectorAll('.timeline-item-content');
+            timelineItemsContent.forEach(item => {
                 item.addEventListener('click', (event) => {
-                    // Prevent the click on the link from toggling the card
                     if (event.target.tagName === 'A') {
+                        event.stopPropagation();
                         return;
                     }
-                    item.classList.toggle('active');
+                    item.closest('.timeline-item').classList.toggle('active');
                 });
+            });
+
+            // --- Intersection Observer for Timeline Animation ---
+            const animatedTimelineItems = document.querySelectorAll('.timeline-item');
+            const timelineObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            animatedTimelineItems.forEach((item, index) => {
+                item.style.transitionDelay = `${index * 200}ms`;
+                timelineObserver.observe(item);
             });
         });
     </script>
