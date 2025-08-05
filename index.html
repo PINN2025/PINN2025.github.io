@@ -189,7 +189,6 @@
                     <!-- Text Column -->
                     <div class="lg:w-2/3 text-center lg:text-left">
                         <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight">林品君 <span class="block md:inline">CHUN LIN</span></h1>
-                        <!-- UPDATED FONT SIZE FOR MOBILE -->
                         <h2 class="text-xl md:text-3xl accent-color font-semibold mt-4">多元觸角 • 邏輯管理 • 追求更好</h2>
                         <p class="mt-8 max-w-3xl mx-auto lg:mx-0 text-lg text-gray-600">
                             具備逾5年跨領域專案規劃與執行經驗，職涯軌跡涵蓋教育、新聞、行銷與非營利組織，擅長統籌活動與跨單位協調，對教育活動與知識轉譯充滿熱忱。熟悉專案管理、課程設計、活動實務，並具備初步資安素養及與技術人員協作經驗，具備高度執行力與解決問題的能力。
@@ -290,7 +289,7 @@
                                 <svg class="toggle-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                             </div>
                         </div>
-                        <p class="text-gray-600">我擅長跨部門協作與跨領域溝通，具備技術與非技術團隊間の橋接能力，並能拓展合作資源與建立實質連結。</p>
+                        <p class="text-gray-600">我擅長跨部門協作與跨領域溝通，具備技術與非技術團隊間的橋接能力，並能拓展合作資源與建立實質連結。</p>
                         <div class="skill-details hidden mt-4 text-sm text-gray-500 border-t pt-2">
                             <ul class="list-disc list-inside space-y-1">
                                 <li>台灣事實查核中心：與工程團隊合作開發輔助查核的 AI 工具，擔任內外部溝通橋樑。</li>
@@ -387,7 +386,6 @@
             const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
             mobileMenuLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
-                    // For internal links, handle smooth scroll
                     if (link.hash) {
                         e.preventDefault();
                         const targetId = link.hash;
@@ -396,7 +394,6 @@
                             targetElement.scrollIntoView({ behavior: 'smooth' });
                         }
                     }
-                    // Always close the menu after a click
                     mobileMenu.classList.add('hidden');
                 });
             });
@@ -554,6 +551,7 @@
                         `兩週內完成500萬獎助計畫提案，並獲選；撰寫計畫期中成果報告，獲贊助單位一次通過。`,
                         `製作事實查核與媒體素養<a href="https://school.tfc-taiwan.org.tw/handout-presentation/" target="_blank" rel="noopener noreferrer">系列教材21份</a>、<a href="https://school.tfc-taiwan.org.tw/online-course-guide/?3360205402=38" target="_blank" rel="noopener noreferrer">線上課程6集</a>，負責規劃教材架構、撰寫課程腳本、美編設計與內容轉譯，教材內容涵蓋AI識讀與數位工具應用。`,
                         `協助規劃大專院校AI識讀與資訊查核課程，與講師共擬課綱與授課的內容形式，也擔任助教。`,
+                        `與工程團隊合作開發輔助查核的 AI 工具，擔任內外部溝通橋樑。`,
                         `建置供團隊收集影響力數據、檢視各項專案與工作執行進度的儀表板，同時整合常用資料。`
                     ]
                 },
